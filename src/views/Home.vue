@@ -1,28 +1,12 @@
 <template>
 <div class="Home">
-    
-    <h1>首页</h1>
-    
 </div>
 </template>
     
-<script>
-    
+<script>   
 export default {
     name:"Home",
-    components:{
-        
-    },
-    data(){
-        return{
-            
-        };
-    },
-    methods:{
-        
-    },
-}
-    
+}  
 </script>
 <style scoped lang="scss">
     
