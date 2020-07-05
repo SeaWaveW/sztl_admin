@@ -13,7 +13,7 @@ const stroage ={
                         key:keys,
                         value:values
                     }
-                    if(i == key){
+                    if(i == key-1){
                         return arr[i]
                     }
                 }
@@ -66,7 +66,7 @@ const stroage ={
                         key:keys,
                         value:values
                     }
-                    if(i == key){
+                    if(i == key-1){
                         return arr[i]
                     }
                 }
@@ -112,29 +112,20 @@ const stroage ={
             const cookies = document.cookie;
             const cookieArr = cookies.split(';');
             const cookieObj = new Object();
-            //number
-            // let numberObj = new Object()
-            // let indexs =0;
+            const numObj = new Object() //接收当key为number类型时
             cookieArr.forEach((item,index)=>{
                 let newArr = item.split("=");
                 cookieObj[newArr[0].trim()] = newArr[1]
-                //当key为number时
-                // indexs = index
-                // if(typeof key === "number" && index == key){
-                //     const keys = newArr[0].trim()
-                //     const values = newArr[1]
-                //     numberObj = {
-                //         key:keys,
-                //         value:values
-                //     }
-                //     return numberObj
-                // }
+                //当key为number类型时
+                if(typeof key === "number" && key-1 === index){
+                    numObj[newArr[0].trim()] = newArr[1]
+                }
             })
-            //number时
-            // if(typeof key === "number" && indexs == key){
-            //     return numberObj
-            // }
-            
+            //当key为number类型时
+            if(typeof key === "number"){
+                return numObj
+            }
+            //否则
             for(let name in cookieObj){
                 if(name == key){ 
                     return cookieObj.name
@@ -159,6 +150,24 @@ const stroage ={
             for(let key in cookieObj){
                 document.cookie = key+'='+' ;expires=' +date.toUTCString();
             }
+        },
+        length:(()=>{
+            const cookies = document.cookie;
+            const cookieArr = cookies.split(';');
+            return cookieArr.length
+        })(),
+        each:(callback)=>{
+            const cookies = document.cookie;
+            const cookieArr = cookies.split(';');
+            const cookieObj = new Object();
+            cookieArr.forEach((item,index)=>{
+                let newArr = item.split("=");
+                cookieObj[newArr[0].trim()] = newArr[1]
+                return callback({
+                    key:newArr[0].trim(),
+                    value:newArr[1]
+                },index)
+            })
         }
     }
 }

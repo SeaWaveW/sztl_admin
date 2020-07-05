@@ -85,3 +85,8 @@ html,body,#app{
     height:100%;
     box-sizing:border-box;
 }
+/* element-ul */
+#app>div,#app>div>.el-container{
+    width: 100%;
+    height: 100%;
+}
