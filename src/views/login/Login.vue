@@ -48,8 +48,8 @@ export default {
         },
         //表单数据双向绑定
         login_form:{
-            username:"",
-            password:""
+            username:"admin",
+            password:"123456"
         }
     }},
     methods:{
@@ -72,7 +72,6 @@ export default {
                     stroage.session.set("token",data.data.token)
                     //再跳转
                     this.$router.replace("/home")
-                    
                 })
             })
         },

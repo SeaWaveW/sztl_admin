@@ -3,6 +3,11 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 const routes = [
   {
     path: '/',
@@ -10,11 +15,27 @@ const routes = [
   },
   {
     path:"/login",
-    component:() => import("views/Login.vue")
+    component:() => import("views/login/Login.vue")
   },
   {
     path:"/home",
-    component:() => import("views/Home.vue")
+    component:() => import("views/home/Home.vue"),
+    redirect:"/users",
+    children:[
+      {
+        path:"/users",
+        component:() => import("views/users/Users.vue"),
+      },
+      {
+        path:"/roles",
+        component:() => import("views/roles/Roles.vue"),
+      },
+      {
+        path:"/rights",
+        component:() => import("views/rights/Rights.vue"),
+      },
+      
+    ]
   }
 ]
 
@@ -35,5 +56,7 @@ router.beforeEach( (to,form,next) => {
   }
   next() 
 })
+
+
 
 export default router

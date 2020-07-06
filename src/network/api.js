@@ -11,3 +11,20 @@ export const reqLogin = ({username,password}) => {
         }
     })
 }
+
+//身份识别--左侧菜单权限menus.get
+export const reqMenus = (()=>{
+    return request({
+        url:"menus",
+        method:"get"
+    })
+})
+
+//用户列表的请求
+export const reqUsersList = ((params)=>{
+    return request({
+        url:"users",
+        method:"get",
+        params
+    })
+})
