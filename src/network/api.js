@@ -56,3 +56,29 @@ export const reqExitUsers = ((id,email,mobile)=>{
         }
     })
 })
+
+//删除单个用户
+export const reqDeleteUsers = id =>{
+    return request({
+        url:`users/${id}`,
+        method:"delete"
+    })
+}
+
+//角色列表
+export const reqRolesList = () =>{
+    return request({
+        url:"roles",
+        method:"get"
+    })
+}
+//分配角色
+export const reqAssignRoles = (id,roleName,roleDesc) =>{
+    return request({
+        url:`roles/${id}`,
+        method:"put",
+        data:{
+            roleName,roleDesc
+        }
+    })
+}

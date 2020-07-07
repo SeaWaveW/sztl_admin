@@ -37,10 +37,10 @@
                         <el-button type="primary" icon="el-icon-edit" size="mini" @click="ExidUserClick(data.row)"></el-button>
                     </el-tooltip>
                     <el-tooltip class="item" effect="dark" content="删除" placement="top" :enterable="false">
-                        <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+                        <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUserClick(data.row)"></el-button>
                     </el-tooltip>
-                    <el-tooltip class="item" effect="dark" content="设置" placement="top" :enterable="false">
-                        <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+                    <el-tooltip class="item" effect="dark" content="分配角色" placement="top" :enterable="false">
+                        <el-button type="warning" icon="el-icon-setting" size="mini" @click="AssignRolesClick(data.row)"></el-button>
                     </el-tooltip>
                 </template>
             </el-table-column>
@@ -59,21 +59,21 @@
     </el-card>
     
     <AddExidUsers ref="addexidusers" :userInfoData="userInfoData" :aeuClose="aeuClose" @updateUsersList="updateUsersList"></AddExidUsers>
+    <AssignRoles ref="assignroles" :userInfoData="userInfoData"></AssignRoles>
 
 </div>
 </template>
     
 <script>
 import HeaderAdmin from "components/HeaderAdmin.vue"
-import {reqUsersList,reqUpdateUsersStatus} from 'network/api';
-// import AddExidUsers from "users/child/AddExidUsers.vue"
+import {reqUsersList,reqUpdateUsersStatus,reqDeleteUsers} from 'network/api';
 import AddExidUsers from "./child/AddExidUsers.vue"
-
+import AssignRoles from "./child/AssignRoles.vue"
 
 export default {
     name:"Users",
     components:{
-        HeaderAdmin,AddExidUsers
+        HeaderAdmin,AddExidUsers,AssignRoles
     },
     data(){return{
         //getUsers请求
@@ -153,6 +153,25 @@ export default {
         //接收孩子传归来的事件updateUsersList
         updateUsersList(){
             this.getUsers() //更新列表
+        },
+        //删除单个用户
+        deleteUserClick(data){
+            this.$confirm('此操作会删除用户, 是否继续?', {
+                title:"系统提示",
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                const result = await reqDeleteUsers(data.id)
+                if(result.meta.status !== 200) return this.$message.error("删除失败")
+                this.$message.success("删除成功")
+                this.getUsers()//更新列表
+            })
+        },
+        //分配角色
+        AssignRolesClick(data){
+            this.$refs.assignroles.dialogVisible=true
+            this.userInfoData = data
         }
     },
     
