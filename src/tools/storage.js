@@ -26,7 +26,10 @@ const stroage ={
             }
         },
         set:(key,value)=>{
-            return sessionStorage.setItem(key,JSON.stringify(value))
+            if(Object.prototype.toString.call(value) && typeof value === "object"){
+                return  sessionStorage.setItem(key,JSON.stringify(value))
+            }
+            return sessionStorage.setItem(key,value)
         },
         remove:(key)=>{
             sessionStorage.removeItem(key)
@@ -79,7 +82,10 @@ const stroage ={
             }
         },
         set:(key,value)=>{
-            return localStorage.setItem(key,JSON.stringify(value))
+            if(Object.prototype.toString.call(value) && typeof value === "object" ){
+                return  localStorage.setItem(key,JSON.stringify(value))
+            }
+            return localStorage.setItem(key,value)
         },
         remove:(key)=>{
             localStorage.removeItem(key)
