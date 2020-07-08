@@ -65,7 +65,7 @@ export const reqDeleteUsers = id =>{
     })
 }
 
-//角色(权限)列表
+//角色列表
 export const reqRolesList = () =>{
     return request({
         url:"roles",
@@ -84,16 +84,60 @@ export const reqAssignRoles = (id,rid) => {
     })
 }
 
+//权限列表
+export const reqRightsList = () => {
+    return request({
+        url:"rights/list",
+        method:"get"
+    })
+}
+//删除角色指定权限
+export const reqDeleteRights = (roleId,rightId) => {
+    return request({
+        url:`roles/${roleId}/rights/${rightId}`,
+        method:"delete"
+    })
+}
+
+//添加角色
+export const reqAddRolds = (addRoleData) => {
+    return request({
+        url:"roles",
+        method:"post",
+        data:addRoleData
+    })
+}
+//编辑提交角色
+export const reqEditRolds = (id,addRoleData) => {
+    return request({
+        url:`roles/${id}`,
+        method:"put",
+        data:addRoleData
+    })
+}
+
+//删除角色
+export const reqDeleteRolds = (id) => {
+    return request({
+        url:`roles/${id}`,
+        method:"delete"
+    })
+}
 
 
+//商品列表数据
+export const reqGetGoods = (params) => {
+    return request({
+        url:"goods",
+        method:"get",
+        params:params
+    })
+}
 
-//编辑角色 O.o！
-// export const reqAssignRoles = (id,roleName,roleDesc) =>{
-//     return request({
-//         url:`roles/${id}`,
-//         method:"put",
-//         data:{
-//             roleName,roleDesc
-//         }
-//     })
-// }
+//添加商品
+export const reqAddGoods = () => {
+    return request({
+        url:"goods",
+        method:"post",
+    })
+}

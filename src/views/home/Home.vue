@@ -129,7 +129,7 @@ export default {
 </script>
 <style scoped lang="scss">
     .Home{
-        min-width: 1380px;
+        min-width: 1080px;
     }
     $headerHeight:60px;
     .el-header{
