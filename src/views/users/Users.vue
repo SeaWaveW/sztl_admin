@@ -59,14 +59,14 @@
     </el-card>
     
     <AddExidUsers ref="addexidusers" :userInfoData="userInfoData" :aeuClose="aeuClose" @updateUsersList="updateUsersList"></AddExidUsers>
-    <AssignRoles ref="assignroles" :userInfoData="userInfoData"></AssignRoles>
+    <AssignRoles ref="assignroles" :userRolesData="userRolesData" :rolesList="rolesList" @updateUsersList="updateUsersList"></AssignRoles>
 
 </div>
 </template>
     
 <script>
 import HeaderAdmin from "components/HeaderAdmin.vue"
-import {reqUsersList,reqUpdateUsersStatus,reqDeleteUsers} from 'network/api';
+import {reqUsersList,reqUpdateUsersStatus,reqDeleteUsers,reqRolesList} from 'network/api';
 import AddExidUsers from "./child/AddExidUsers.vue"
 import AssignRoles from "./child/AssignRoles.vue"
 
@@ -86,8 +86,12 @@ export default {
         usersData:[],
         //总页数
         total:0,
-        //传给弹窗的数据
-        userInfoData:{}
+        //传给弹窗 添加用户、编辑用户、分配角色的数据
+        userInfoData:{},
+        //传给弹窗 分配角色 的数据
+        userRolesData:{},//用户数据
+        rolesList:[],//权限列表
+
     }},
     created(){
         //页面一创建就调用用户列表请求
@@ -169,9 +173,13 @@ export default {
             })
         },
         //分配角色
-        AssignRolesClick(data){
-            this.$refs.assignroles.dialogVisible=true
-            this.userInfoData = data
+        async AssignRolesClick(data){
+            const result = await reqRolesList().then(data=>{
+                this.rolesList = data.data
+                console.log(this.rolesList)
+            })
+            this.$refs.assignroles.dialogVisible = true
+            this.userRolesData = data
         }
     },
     

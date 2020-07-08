@@ -70,7 +70,7 @@ export default {
         handleClose(){
             this.dialogVisible = false
             this.$refs.userForm.resetFields() //数据归置初始化，并移除效验规则
-            //向父亲发送时间
+            //向父亲发送事件-用于清理bug
             this.$emit("aeuClose")
         },
         //添加用户--修改用户

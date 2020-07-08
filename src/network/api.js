@@ -65,20 +65,35 @@ export const reqDeleteUsers = id =>{
     })
 }
 
-//角色列表
+//角色(权限)列表
 export const reqRolesList = () =>{
     return request({
         url:"roles",
         method:"get"
     })
 }
-//分配角色
-export const reqAssignRoles = (id,roleName,roleDesc) =>{
+
+//分配用户角色
+export const reqAssignRoles = (id,rid) => {
     return request({
-        url:`roles/${id}`,
+        url:`users/${id}/role`,
         method:"put",
         data:{
-            roleName,roleDesc
+            rid
         }
     })
 }
+
+
+
+
+//编辑角色 O.o！
+// export const reqAssignRoles = (id,roleName,roleDesc) =>{
+//     return request({
+//         url:`roles/${id}`,
+//         method:"put",
+//         data:{
+//             roleName,roleDesc
+//         }
+//     })
+// }
