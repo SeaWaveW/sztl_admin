@@ -11,12 +11,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 import { message} from 'tools/resetMessage';Vue.prototype.$message = message; //重置element-ui中message消息提示
 
-//storage
-import storage from 'tools/storage';
-// storage.cookie.set("pass","mima",7)
-// storage.cookie.each( (item,index)=>{
-//   console.log(item,index)
-// })
+//github第三方表格插件
+import ZkTable from 'vue-table-with-tree-grid'
+Vue.component("ZkTable", ZkTable)
+
 
 new Vue({
   router,

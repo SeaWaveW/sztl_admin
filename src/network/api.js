@@ -84,7 +84,7 @@ export const reqAssignRoles = (id,rid) => {
     })
 }
 
-//权限列表
+//获取列表式权限列表
 export const reqRightsList = () => {
     return request({
         url:"rights/list",
@@ -124,6 +124,25 @@ export const reqDeleteRolds = (id) => {
     })
 }
 
+//获取树状式权限列表
+export const reqRightsTree = () => {
+    return request({
+        url:"rights/tree",
+        method:"get"
+    })
+}
+
+//角色授权
+export const reqGiveRights = (roleId,rids) => {
+    return request({
+        url:`roles/${roleId}/rights`,
+        method:"post",
+        data:{
+            rids
+        }
+    })
+}
+
 
 //商品列表数据
 export const reqGetGoods = (params) => {
@@ -139,5 +158,15 @@ export const reqAddGoods = () => {
     return request({
         url:"goods",
         method:"post",
+    })
+}
+
+
+//商品分类数据列表
+export const reqGetCategories = (dataParams) => {
+    return request({
+        url:"categories",
+        method:"get",
+        params:dataParams
     })
 }

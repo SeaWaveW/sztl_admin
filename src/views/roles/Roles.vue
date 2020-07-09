@@ -18,29 +18,32 @@
                 <template slot-scope="scope">
                     <el-button type="primary" icon="el-icon-edit" size="mini" @click="AddEditRoleClick(scope.row)">编辑</el-button>
                     <el-button type="danger" icon="el-icon-delete" size="mini" @click="DeleteRoleClick(scope.row)">删除</el-button>
-                    <el-button type="warning" icon="el-icon-setting" size="mini">分配权限</el-button>
+                    <el-button type="warning" icon="el-icon-setting" size="mini" @click="GiveRightsClick(scope.row)">分配权限</el-button>
                 </template>
             </el-table-column>
         </el-table>
     </el-card>
     <AddEditRole ref="AddEditRole" :roleInfoData="roleInfoData" @UpdateRoleList="UpdateRoleList"></AddEditRole>
-    
+    <GiveRights ref="GiveRights" :roleRightsData="roleRightsData" @updateRoleData="updateRoleData" :getRolesList="getRolesList"></GiveRights>
 </div>
 </template>
     
 <script>
 import HeaderAdmin from "components/HeaderAdmin.vue" //头部
-import RoleInformation from "./childCom/RoleInformation" //角色权限
 import AddEditRole from "./childCom/AddEditRole" //添加编辑角色
+import RoleInformation from "./childCom/RoleInformation" //删除角色单个权限
+import GiveRights from "./childCom/GiveRights" //分配权限
+
 import {reqRolesList,reqDeleteRolds} from "network/api"
 export default {
     name:"Roles",
     components:{
-       HeaderAdmin,RoleInformation,AddEditRole
+       HeaderAdmin,RoleInformation,AddEditRole,GiveRights
     },
     data(){return{
         rolesList:[],//角色列表①
-        roleInfoData:{} //传给子组件（添加、编辑角色）的数据②
+        roleInfoData:{}, //传给子组件（添加、编辑角色）的数据②
+        roleRightsData:{},//当前角色的信息---传给子组件（分配权限）的数据④
     }},
     methods:{
         //获取角色列表①
@@ -57,6 +60,10 @@ export default {
         UpdateRoleList(){
             this.getRolesList()
         },
+        //接收子组件分配权限传过来的更新当前角色信息的方法④
+        updateRoleData(){
+            this.roleRightsData = {}
+        },
         //删除角色③
         DeleteRoleClick(roleData){
             this.$confirm('是否删除该角色？',{
@@ -72,6 +79,11 @@ export default {
             }).catch(() => {
                 this.$message.info('已取消删除');         
             });
+        },
+        //分配权限④
+        GiveRightsClick(roleData){
+            this.roleRightsData = roleData //更新传输给子组件的数据④
+            this.$refs.GiveRights.dialogVisible = true //打开分配权限对话框
         }
 
     },

@@ -17,7 +17,7 @@
     </el-header>
     <el-container>
         <!-- 左侧导航栏 -->
-        <el-aside :width="collapseFlag ? '180px' : '64px'">
+        <el-aside :width="collapseFlag ? '200px' : '64px'">
             <div class="shrinkage" @click="collapseFlag = !collapseFlag">|||</div>
             <el-menu 
                 class="el-menu-vertical-demo" 
@@ -32,7 +32,7 @@
             >
                 <el-submenu v-for="item in menuList" :key="item.id" :index="item.id+''" >
                     <template slot="title">
-                        <i :class="iconList[item.id]"></i>
+                        <i :class="iconList[item.id]" style="margin-left:6px"></i>
                         <span>{{item.authName}}</span>
                     </template>
                     <el-menu-item v-for="citem in item.children" :key="citem.id" :index="'/'+citem.path">
