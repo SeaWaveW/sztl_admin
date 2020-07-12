@@ -70,6 +70,7 @@ export default {
                     //登录成功
                     //保存token到本地
                     stroage.session.set("token",data.data.token)
+                    stroage.session.set("userInfo",data.data)
                     //再跳转
                     this.$router.replace("/home")
                 })

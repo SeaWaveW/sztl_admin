@@ -1,6 +1,15 @@
 //引入axios
 import axios from 'axios';
 
+// import { Loading } from 'element-ui';
+// let loadingInstance = ""
+
+//nprogress
+// import Vue from 'vue';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css'
+// Vue.use(NProgress)
+
 //创建
 export const request = (config) => {
     const instance = axios.create({
@@ -10,10 +19,25 @@ export const request = (config) => {
     //请求拦截
     instance.interceptors.request.use( config => {
         config.headers.Authorization = sessionStorage.getItem("token")
+        
+        // loadingInstance = Loading.service({
+        //     lock: true,
+        //     text: 'Loading',
+        //     spinner: 'el-icon-loading',
+        //     background: 'rgba(0, 0, 0, 0.5)'
+        // });
+
+        NProgress.start();
+
         return config
     })
     //响应拦截
     instance.interceptors.response.use( data => {
+
+        // loadingInstance.close();
+
+        NProgress.done();
+
         return data.data
     })
     //返回实例

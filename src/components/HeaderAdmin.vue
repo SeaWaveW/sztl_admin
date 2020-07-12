@@ -34,5 +34,6 @@ export default {
 <style scoped lang="scss">
     .el-breadcrumb{
         padding-bottom: 10px;
+        font-size: 10px;
     }
 </style>
