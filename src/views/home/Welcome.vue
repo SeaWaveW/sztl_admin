@@ -2,7 +2,7 @@
 <div class="Welcome">
     
     <h1>欢迎{{userInfo.username}},来到后台管理系统</h1>
-    
+    <p>未完成功能：订单查询，地址修改，物流查看</p>
 </div>
 </template>
     
