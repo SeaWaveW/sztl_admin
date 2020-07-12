@@ -15,6 +15,11 @@ import { message} from 'tools/resetMessage';Vue.prototype.$message = message; //
 import ZkTable from 'vue-table-with-tree-grid'
 Vue.component("ZkTable", ZkTable)
 
+// echars
+import echarts from "echarts";
+Vue.prototype.$echarts = echarts;
+
+
 
 new Vue({
   router,

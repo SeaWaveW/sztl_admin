@@ -14,7 +14,7 @@
             </el-col>
             <el-col :span="3">
                 <!-- 添加商品④ -->
-                <el-button type="primary" @click="AddEditGood({})">添加商品</el-button>
+                <el-button type="primary" @click="AddEditClick({})">添加商品</el-button>
             </el-col>
         </el-row>
         <!-- 表格 -->
@@ -28,10 +28,11 @@
                 <template slot-scope="scope">
                     <el-tooltip class="item" effect="dark" content="编辑" placement="top-start" :enterable="false">
                         <!-- 编辑商品⑤ -->
-                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="AddEditGood(scope.row)"></el-button>
+                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="AddEditClick(scope.row)"></el-button>
                     </el-tooltip>
-                    <el-tooltip class="item" effect="dark" content="删除" placement="top-start" :enterable="false">
-                        <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+                    <el-tooltip class="item" effect="dark" content="删除" placement="top-start" :enterable="false" >
+                        <!-- 删除商品 ⑥ -->
+                        <el-button type="danger" icon="el-icon-delete" size="mini" @click="DeleteGoodClick(scope.row)"></el-button>
                     </el-tooltip>
                 </template>
             </el-table-column>
@@ -46,21 +47,21 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="goodsTotal">
         </el-pagination>
-    </el-card>
 
-    <!-- 添加商品④ -->
-    <AddEditGood ref="AddEditGood" :AddEditGoodsData="AddEditGoodsData"></AddEditGood>
+        <!-- 添加、编辑 商品的dialog ④⑤ -->
+        <AddEditGoos ref="AddEditGoos" :addeditData="addeditData" :getGoodsList="getGoodsList" @updataGoodInfo="updataGoodInfo" :categoriesList="categoriesList"></AddEditGoos>
+    </el-card>
 </div>
 </template>
     
 <script>
 import HeaderAdmin from "components/HeaderAdmin.vue"  
-import {reqGetGoods} from 'network/api';
-import AddEditGood from "./childCom/AddEditGood"  
+import {reqGetGoods,reqDeleteGoods,reqGetCategories} from 'network/api';
+import AddEditGoos from "./childCom/AddEditGoos"
 export default {
     name:"Goods",
     components:{
-       HeaderAdmin,AddEditGood
+       HeaderAdmin,AddEditGoos
     },
     data(){return{
         //定义获取商品列表的参数①
@@ -71,8 +72,9 @@ export default {
         },
         goodsList:[],//商品列表
         goodsTotal:0,//商品总数 --分页③需要用到
-        AddEditGoodsData:{},//传给子组件（添加、编辑）的数据④---⑤
 
+        addeditData:{}, //添加、编辑事件传给子组件的数据④⑤
+        categoriesList:[], //传给子组件的分类列表数据 ④⑤
     }},
     methods:{
         //设置方法①
@@ -106,15 +108,43 @@ export default {
             this.params.pagenum = 1 
             this.getGoodsList()
         },
-        //添加、编辑商品④---⑤
-        AddEditGood(goodData){
-            this.AddEditGoodsData = goodData
-            this.$refs.AddEditGood.dialogVisible = true
+        //删除商品⑥
+        async DeleteGoodClick(rowInfo){
+            this.$confirm('确定要删除该商品嘛?',{
+                title:"温馨提示",
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                const result = await reqDeleteGoods(rowInfo.goods_id)
+                if(result.meta.status!==200) return this.$message.error("删除商品失败")
+                this.getGoodsList()
+                this.$message.success("删除商品成功")
+            }).catch(() => {
+                this.$message.info('已取消删除');        
+            });
+            
         },
+        // 添加、编辑事件 ④⑤
+        AddEditClick(rowGoodInfo){
+            this.addeditData = rowGoodInfo
+            this.$refs.AddEditGoos.dialogVisible = true
+            console.log(rowGoodInfo)
+        },
+        updataGoodInfo(){ //子组件传过来的更新
+            this.addeditData = {}
+        },
+        async getCategoriesList(){ //获取分类列表
+            const result = await reqGetCategories({tyep:"",pagenum:"",pagesize:""})
+            if(result.meta.status !== 200) return this.$message.error("获取分类列表失败")
+            this.categoriesList = result.data
+        }
     },
     created(){
         //创建时获取商品列表①
         this.getGoodsList()
+        // 创建时获取分类列表④⑤
+        this.getCategoriesList()
     }
 }
     

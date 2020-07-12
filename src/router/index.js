@@ -20,8 +20,12 @@ const routes = [
   {
     path:"/home",
     component:() => import("views/home/Home.vue"),
-    redirect:"/users",
+    redirect:"/welcome",
     children:[
+      {
+        path:"/welcome",
+        component:() => import("views/home/Welcome.vue"),//用户管理--用户列表
+      },
       {
         path:"/users",
         component:() => import("views/users/Users.vue"),//用户管理--用户列表
