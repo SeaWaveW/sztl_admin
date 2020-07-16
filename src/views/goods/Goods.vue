@@ -14,7 +14,7 @@
             </el-col>
             <el-col :span="3">
                 <!-- 添加商品④ -->
-                <el-button type="primary" @click="AddEditClick({})">添加商品</el-button>
+                <el-button type="primary" @click="AddClick()">添加商品</el-button>
             </el-col>
         </el-row>
         <!-- 表格 -->
@@ -125,8 +125,11 @@ export default {
             });
             
         },
+        AddClick(){ //添加商品事件
+            this.$router.push("/goods/add")
+        },
         // 添加、编辑事件 ④⑤
-        AddEditClick(rowGoodInfo){
+        AddEditClick(rowGoodInfo={}){
             this.addeditData = rowGoodInfo
             this.$refs.AddEditGoos.dialogVisible = true
             console.log(rowGoodInfo)

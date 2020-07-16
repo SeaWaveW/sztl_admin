@@ -161,6 +161,7 @@ export const reqAddGoods = (addGoodsData) => {
     })
 }
 
+
 // 1.8.4. 编辑提交商品
 export const reqEditGoods = (id,editGoodsData) => {
     return request({
