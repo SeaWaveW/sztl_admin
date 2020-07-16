@@ -42,6 +42,11 @@ const routes = [
         path:"/goods",
         component:() => import("views/goods/Goods.vue"),//商品管理--商品列表
       },
+
+      {
+        path:"/goods/add",
+        component:()=> import("views/goods/childCom/AddGoods.vue") //商品管理---商品列表---添加商品
+      },
       {
         path:"/params",
         component:() => import("views/params/Params.vue"),//商品管理--分类参数
